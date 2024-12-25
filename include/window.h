@@ -8,6 +8,9 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 
+#include "environment.h"
+#include "player.h"
+
 typedef struct win {
     SDL_Window *window;
     SDL_Renderer *renderer;
@@ -18,4 +21,5 @@ typedef struct win {
 
 void windowInit(Window *window);
 void windowDestroy(Window *window);
-void windowEvents(Window *window);
+void windowEvents(Window *window, Player *player);
+void renderShow(Window *window);
