@@ -7,7 +7,7 @@ int main(void)
 {    
     windowInit(&window);
     while (window.isRunning) {
-       renderShow(&window);
+       renderShow(&window, &player);
        windowEvents(&window, &player); 
     }
     windowDestroy(&window);

@@ -78,14 +78,12 @@ void windowEvents(Window* window, Player* player) {
 
 // Render everything on screen
 // * param window: Window struct
-void renderShow(Window* window) {
+void renderShow(Window* window, Player* player) {
     // Draw canvas
     SDL_SetRenderDrawColor(window->renderer, 0, 0, 0, 255);
     SDL_RenderClear(window->renderer);
     
     // Draw player
-    SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255);
-    SDL_Rect player = {window->width/2 - 5, window->height/2 - 5, 10, 10};
-    SDL_RenderFillRect(window->renderer, &player);
+    drawEnv(player, window);
     SDL_RenderPresent(window->renderer);
 }
