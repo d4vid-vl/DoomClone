@@ -16,6 +16,7 @@ typedef struct win {
     int height;
     int width;
     bool isRunning;
+    int lastFrame, lastTime, fps, frameCount;
 } Window;
 
 void windowInit(Window *window);
