@@ -16,23 +16,39 @@ void drawEnv(Player *player, Window *window) {
   wy[0] = x1*SN + y1*CS;
   wy[1] = x2*SN + y2*CS;
   
-  wz[0] = 0-player->z;
-  wz[1] = 0-player->z;
+  wz[0] = 0-player->z+((player->look*wy[0])/32.0);
+  wz[1] = 0-player->z+((player->look*wy[1])/32.0);
   
   // Screen positions
   wx[0] = wx[0] * 200 / wy[0] + window->width/2; wy[0] = wz[0] * 200 / wy[0] + window->height/2;
   wx[1] = wx[1] * 200 / wy[1] + window->width/2; wy[1] = wz[1] * 200 / wy[1] + window->height/2;
-
+  
   // Draw points
-  if (wx[0] > 0 && wx[0] < window->width && wy[0] > 0 && wy[0] < window->height) {
+  /*if (wx[0] > 0 && wx[0] < window->width && wy[0] > 0 && wy[0] < window->height) { // Check if point is in screen
     SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255);
-    SDL_Rect rect = {wx[0], wy[0], 4, 4};  
+    SDL_Rect rect = {wx[0], wy[0], 5, 5};  
     SDL_RenderDrawRect(window->renderer, &rect);
     SDL_RenderFillRect(window->renderer, &rect);
   } 
-  if (wx[1] > 0 && wx[1] < window->width && wy[1] > 0 && wy[1] < window->height) {
+  if (wx[1] > 0 && wx[1] < window->width && wy[1] > 0 && wy[1] < window->height) { // Check if point is in screen
     SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255);
-    SDL_Rect rect = {wx[1], wy[1], 4, 4};
+    SDL_Rect rect = {wx[1], wy[1], 5, 5};
+    SDL_RenderDrawRect(window->renderer, &rect);
+    SDL_RenderFillRect(window->renderer, &rect);
+  }*/ 
+
+  drawWall(wx[0], wx[1], wy[0], wy[1], window);
+}
+
+void drawWall(int x1, int x2, int b1, int b2, Window* window) {
+  int dyb = b2-b1;
+  int dx = x2-x1; if (dx == 0) { dx = 1; }
+  int xs = x1;
+
+  for (int x = x1; x < x2; x++) {
+    int y = dyb * (x - xs + 0.5) / dx + b1;
+    SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255);
+    SDL_Rect rect = {x, y, 5, 5};
     SDL_RenderDrawRect(window->renderer, &rect);
     SDL_RenderFillRect(window->renderer, &rect);
   }
