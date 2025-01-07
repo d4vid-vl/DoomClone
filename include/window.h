@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WINDOW_H
+#define WINDOW_H
 
 #define WIN_WIDTH 1024
 #define WIN_HEIGHT 768
@@ -23,3 +24,4 @@ void windowInit(Window *window);
 void windowDestroy(Window *window);
 void windowEvents(Window *window, Player *player);
 void renderShow(Window *window, Player *player);
+#endif
