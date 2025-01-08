@@ -22,6 +22,7 @@ void windowInit(Window* window) {
     fprintf(stderr, "Error creating SDL renderer.\n");
     exit(1);
   }
+  initSectors();
 }
 
 // Destroy window
@@ -102,7 +103,6 @@ void windowEvents(Window* window, Player* player) {
 // Render everything on screen
 // * param window: Window struct
 void renderShow(Window* window, Player* player) {
-
     // Frame rate control
     window->frameCount++;  
     int timerFPS = SDL_GetTicks() - window->lastFrame;
