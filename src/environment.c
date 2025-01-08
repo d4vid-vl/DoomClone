@@ -57,7 +57,15 @@ void initSectors() {
 
 void drawEnv(Player *player, Window *window) {
   int s, w, wx[4], wy[4], wz[4]; // Wall coordinates
-
+  
+  // Sort sectors - Bubblesort
+  for (s = 0; s < numSect-1; s++) {
+    for (w = 0; w < numSect-s-1; w++) {
+        if (S[w].d < S[w+1].d) {
+          Sectors st = S[w]; S[w] = S[w+1]; S[w+1] = st;
+        }
+    }
+  }
   // Draw sectors
   for (s = 0; s < numSect; s++) {
     S[s].d = 0;
@@ -92,13 +100,24 @@ void drawEnv(Player *player, Window *window) {
       }
       if (wy[1] < 1) { 
         clipPlayer(&wx[1], &wy[1], &wz[1], wx[0], wy[0], wz[0]);
+        clipPlayer(&wx[3], &wy[3], &wz[3], wx[2], wy[2], wz[2]);
       }
+
       // Screen positions
       wx[0] = wx[0] * 200 / wy[0] + window->width/2; wy[0] = wz[0] * 200 / wy[0] + window->height/2;
       wx[1] = wx[1] * 200 / wy[1] + window->width/2; wy[1] = wz[1] * 200 / wy[1] + window->height/2;
       wx[2] = wx[2] * 200 / wy[2] + window->width/2; wy[2] = wz[2] * 200 / wy[2] + window->height/2;
       wx[3] = wx[3] * 200 / wy[3] + window->width/2; wy[3] = wz[3] * 200 / wy[3] + window->height/2;
 
+      // Set color and draw wall
+      if (W[w].c == 0) { SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255); }
+      if (W[w].c == 1) { SDL_SetRenderDrawColor(window->renderer, 255, 0, 0, 255); }
+      if (W[w].c == 2) { SDL_SetRenderDrawColor(window->renderer, 0, 255, 0, 255); }
+      if (W[w].c == 3) { SDL_SetRenderDrawColor(window->renderer, 0, 0, 255, 255); }
+      if (W[w].c == 4) { SDL_SetRenderDrawColor(window->renderer, 255, 255, 0, 255); }
+      if (W[w].c == 5) { SDL_SetRenderDrawColor(window->renderer, 255, 0, 255, 255); }
+      if (W[w].c == 6) { SDL_SetRenderDrawColor(window->renderer, 0, 255, 255, 255); }
+      if (W[w].c == 7) { SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255); }
       drawWall(wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], window);
 
       int dx = x2-x1, dy = y2-y1;
@@ -139,7 +158,7 @@ void drawWall(int x1, int x2, int b1, int b2, int t1, int t2, Window* window) {
     if (y2 < 1) { y2 = 1; }
     if (y1 > window->height-1) { y1 = window->height-1; }
     if (y2 > window->height-1) { y2 = window->height-1; }
-    SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255);
+
     for (y = y1; y < y2; y++) {
       SDL_RenderDrawPoint(window->renderer, x, y);
     }
